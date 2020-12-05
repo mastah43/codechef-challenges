@@ -2,8 +2,6 @@ import argparse
 
 
 def days_to_vaccine_number(d1, v1, d2, v2, p):
-    # TODO constraint 1≤D1,V1,D2,V2≤100
-    # TODO constraint 1≤P≤1,000
     assert 1 <= d1 <= 100
     assert 1 <= d2 <= 100
     assert 1 <= v1 <= 100
