@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 
 def days_to_vaccine_number(d1, v1, d2, v2, p):
@@ -20,20 +21,9 @@ def days_to_vaccine_number(d1, v1, d2, v2, p):
     return day
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='Calculate days to vaccine production ammount.')
-    parser.add_argument('d1', type=int)
-    parser.add_argument('v1', type=int)
-    parser.add_argument('d2', type=int)
-    parser.add_argument('v2', type=int)
-    parser.add_argument('p', type=int)
-    args = parser.parse_args()
-    return args
-
-
 def main():
-    args = parse_args()
-    print(days_to_vaccine_number(args.d1, args.v1, args.d2, args.v2, args.p))
+    d1, v1, d2, v2, p = [int(x) for x in sys.stdin.readline().split()]
+    print(days_to_vaccine_number(d1, v1, d2, v2, p))
 
 
 if __name__ == "__main__":
