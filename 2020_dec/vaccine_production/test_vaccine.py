@@ -14,7 +14,7 @@ class Test(TestCase):
 
     def run_problem_solver(self, d1, v1, d2, v2, p):
         proc = subprocess.Popen(
-            ['python', 'vaccine.py', str(d1), str(v1), str(d2), str(v2), str(p)],
+            ['python', 'vaccine.py'],
             cwd=os.path.dirname(os.path.realpath(__file__)),
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE)
