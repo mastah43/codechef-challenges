@@ -2,14 +2,15 @@ import sys
 
 
 def even_pair_count(a, b):
-    assert 1 <= a <= 10**9
-    assert 1 <= b <= 10**9
-    count = 0
-    for ai in range(1, a + 1):
-        for bi in range(1, b + 1):
-            if (ai + bi) % 2 == 0:
-                print(str(ai) + '+' + str(bi))
-                count = count + 1
+    assert 1 <= a <= 10 ** 9
+    assert 1 <= b <= 10 ** 9
+
+    a_odds = a // 2 + a % 2
+    a_evens = a // 2
+    b_odds = b // 2 + b % 2
+    b_evens = b // 2
+
+    count = a_evens * b_evens + a_odds * b_odds
     return count
 
 
