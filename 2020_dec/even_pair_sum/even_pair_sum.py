@@ -1,6 +1,10 @@
 import sys
 
 
+def print_err(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
 def even_pair_count(a, b):
     assert 1 <= a <= 10 ** 9
     assert 1 <= b <= 10 ** 9
@@ -16,13 +20,15 @@ def even_pair_count(a, b):
 
 def read_input():
     input_len = int(sys.stdin.readline())
-    for i in range(1, input_len):
+    pairs = []
+    # print_err("input len " + str(input_len))
+    for i in range(0, input_len):
         line = sys.stdin.readline()
         if not line:
             break
-        yield [int(x) for x in line.split()]
-
-        yield int(line)
+        pairs = pairs + [[int(x) for x in line.split()]]
+    # print_err("pairs " + str(pairs))
+    return pairs
 
 
 def main():

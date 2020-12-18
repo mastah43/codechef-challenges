@@ -1,6 +1,7 @@
 from unittest import TestCase
 import subprocess
 import os
+import sys
 from .even_pair_sum import even_pair_count
 
 
@@ -28,13 +29,17 @@ class Test(TestCase):
     def test_8_9(self):
         self.assertEqual(36, even_pair_count(8, 9))
 
+    def test_main_simple(self):
+        result = self.run_problem_solver([[8, 9]])
+        self.assertEqual([36], result)
+
     def test_main_bound_max(self):
         result = self.run_problem_solver([[10**9, 10**9]])
-        self.assertEqual(result, b'3\n')
+        self.assertEqual([500000000000000000], result)
 
     def test_main_bound_min(self):
         result = self.run_problem_solver([[1, 1]])
-        self.assertEqual([1, 3, 12, 36], result)
+        self.assertEqual([1], result)
 
     def test_main_official(self):
         result = self.run_problem_solver([
@@ -56,7 +61,7 @@ class Test(TestCase):
 
         proc.stdin.close()
         proc.wait()
-        output = self.read_output(proc)
+        output = list(self.read_output(proc))
         proc.stdout.close()
         return output
 
