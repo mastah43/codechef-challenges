@@ -1,8 +1,6 @@
 from unittest import TestCase
 import subprocess
-import os
-import sys
-from .even_pair_sum import even_pair_count
+from even_pair_sum.even_pair_sum import even_pair_count
 
 
 class Test(TestCase):
@@ -53,7 +51,7 @@ class Test(TestCase):
     def run_problem_solver(self, pairs):
         proc = subprocess.Popen(
             ['python', 'even_pair_sum.py'],
-            cwd=os.path.dirname(os.path.realpath(__file__)),
+            cwd='../even_pair_sum',
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE)
 
