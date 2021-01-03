@@ -29,7 +29,7 @@ class Test(TestCase):
 
     def run_problem_solver_cases(self, cases: List[Case]) -> List[int]:
         proc = subprocess.Popen(
-            ['python', 'vaccine_distribution.py'],
+            ['python', 'lead_game.py'],
             cwd='../vaccine_distribution',
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE)
