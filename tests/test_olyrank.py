@@ -12,7 +12,7 @@ class Test(TestCase):
             "10 20 30 0 29 30",
             "0 0 0 0 0 1",
             "1 1 1 0 0 0"])
-        self.assertEqual(result, [1, 2, 1])
+        self.assertEqual([1, 2, 1], result)
 
     def run_problem_solver(self, lines: List[str]) -> List[int]:
         proc = subprocess.Popen(
