@@ -15,6 +15,12 @@ def print_err(*args, **kwargs):
 
 
 def probdiff(diffs: List[int]) -> int:
+    #sets = for i in range(len(diffs)) yield i
+    #set_id = 1
+    #diffs.copy()
+    #for i in range(len(diffs)):
+    #    sets[i] = set_id
+
     return 0
 
 
