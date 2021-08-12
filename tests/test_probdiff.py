@@ -1,8 +1,7 @@
 from unittest import TestCase
 import subprocess
 from typing import List
-from olympics_ranking.olyrank import Case
-from olympics_ranking.olyrank import olyrank
+from probdiff.probdiff import Case
 
 
 class Test(TestCase):
@@ -15,20 +14,27 @@ class Test(TestCase):
             ],
             [2, 1, 0])
 
-    def test_own_case_1(self):
+    def test_own_1(self):
+        self.assert_solve([1, 1, 2, 2], 2)
+
+    def test_main_own_1(self):
         self.assert_solve_cases(["1 1 2 2"], [2])
 
-    def test_own_case_2(self):
+    def test_main_own_2(self):
         self.assert_solve_cases(["1 1 1 2 3 4"], [3])
 
-    def test_own_case_3(self):
+    def test_main_own_3(self):
         self.assert_solve_cases(["2 3 4 1 1 1"], [3])
 
-    def test_own_case_4(self):
+    def test_main_own_4(self):
         self.assert_solve_cases(["1 1 2 3 4 5 1 1"], [4])
 
-    def test_own_case_5(self):
+    def test_main_own_5(self):
         self.assert_solve_cases(["1 2 3 3 2 1 1 2 3"], [3])
+
+    def assert_solve(self, diffs: List[int], expected_result: int):
+        result = Case(diffs).solve()
+        self.assertEqual(expected_result, result)
 
     def assert_solve_cases(self, cases: List[str], expected_result: List[int]):
         result = self.run_problem_solver([str(len(cases))] + cases)
