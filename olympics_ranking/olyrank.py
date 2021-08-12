@@ -33,7 +33,6 @@ def olyrank(medals1: Medals, medals2: Medals) -> int:
 
 def read_input() -> List[Case]:
     test_case_count = int(sys.stdin.readline())
-    print_err("test cases: " + str(test_case_count))
     cases: List[Case] = []
     for i in range(0, test_case_count):
         cases.append(read_input_test_case())
