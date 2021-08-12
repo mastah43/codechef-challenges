@@ -1,6 +1,4 @@
 import sys
-import math
-from functools import reduce
 from typing import List
 
 
@@ -8,6 +6,7 @@ class Case:
     def __init__(self, diffs: List[int]):
         self.diffs = diffs
         self.sets = [0 for i in range(len(self.diffs))]
+        self.occurrence = self._count_occurrence()
         return
 
     def _is_addable_to_set(self, set_id: int, diff: int):
@@ -28,10 +27,17 @@ class Case:
 
         return sum(map(lambda set_size: 1 if set_size >= 2 else 0, counts_by_set_id.values()))
 
+    def _count_occurrence(self):
+        occurrence = dict()
+        for diff in self.diffs:
+            occurrence.setdefault(diff, 0)
+            occurrence[diff] += 1
+        return occurrence
+
     def solve(self) -> int:
         self.sets = [0 for i in range(len(self.diffs))]
-        current_set_id = 1
-        for i in range(len(self.diffs)):
+
+        for i in self._indices_by_occurrence_desc():
             diff = self.diffs[i]
             set_id = 1
             while not self._is_addable_to_set(set_id=set_id, diff=diff):
@@ -40,6 +46,11 @@ class Case:
 
         return self._count_complete_sets()
 
+    def _indices_by_occurrence_desc(self):
+        return sorted(range(len(self.diffs)),
+                      key=lambda i: self.occurrence[self.diffs[i]]*len(self.diffs) + len(self.diffs) - i,
+                      reverse=True)
+
 
 def print_err(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -47,7 +58,6 @@ def print_err(*args, **kwargs):
 
 def read_input() -> List[Case]:
     test_case_count = int(sys.stdin.readline())
-    print_err("test cases: " + str(test_case_count))
     cases: List[Case] = []
     for i in range(0, test_case_count):
         cases.append(read_input_test_case())

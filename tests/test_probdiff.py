@@ -30,7 +30,16 @@ class Test(TestCase):
         self.assert_solve_cases(["1 1 2 3 4 5 1 1"], [4])
 
     def test_main_own_5(self):
-        self.assert_solve_cases(["1 2 3 3 2 1 1 2 3"], [3])
+        self.assert_solve_cases(["1 2 3 3 2 1 1 2 3"], [4])
+
+    def test_indices_by_occurrence_desc(self):
+        def assert_indices_by_occurrence_desc(diffs: List[int], expected_indices: List[int]):
+            self.assertEqual(Case(diffs)._indices_by_occurrence_desc(), expected_indices)
+
+        assert_indices_by_occurrence_desc([1], [0])
+        assert_indices_by_occurrence_desc([1, 2], [0, 1])
+        assert_indices_by_occurrence_desc([1, 2, 1], [0, 2, 1])
+        assert_indices_by_occurrence_desc([2, 1, 1], [1, 2, 0])
 
     def assert_solve(self, diffs: List[int], expected_result: int):
         result = Case(diffs).solve()
