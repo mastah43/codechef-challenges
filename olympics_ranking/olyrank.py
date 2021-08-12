@@ -22,13 +22,12 @@ class Case:
         self.m2 = m2
         return
 
+    def solve(self) -> int:
+        return self.m1.country if self.m1.count_medals() > self.m2.count_medals() else self.m2.country
+
 
 def print_err(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
-
-
-def olyrank(medals1: Medals, medals2: Medals) -> int:
-    return medals1.country if medals1.count_medals() > medals2.count_medals() else medals2.country
 
 
 def read_input() -> List[Case]:
@@ -47,7 +46,7 @@ def read_input_test_case() -> Case:
 def main():
     cases = read_input()
     for case in cases:
-        print(str(olyrank(case.m1, case.m2)))
+        print(str(case.solve()))
 
 
 if __name__ == "__main__":

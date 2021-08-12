@@ -1,8 +1,7 @@
 from unittest import TestCase
 import subprocess
 from typing import List
-from olympics_ranking.olyrank import Case
-from olympics_ranking.olyrank import olyrank
+from olympics_ranking.olyrank import Case, Medals
 
 
 class Test(TestCase):
@@ -13,6 +12,11 @@ class Test(TestCase):
             "0 0 0 0 0 1",
             "1 1 1 0 0 0"])
         self.assertEqual([1, 2, 1], result)
+
+    def test_count_medals(self):
+        c = Case(Medals(1, 1, 2, 3), Medals(2, 4, 5, 6))
+        self.assertEqual(6, c.m1.count_medals())
+        self.assertEqual(15, c.m2.count_medals())
 
     def run_problem_solver(self, lines: List[str]) -> List[int]:
         proc = subprocess.Popen(
