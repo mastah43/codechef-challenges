@@ -37,7 +37,7 @@ class Test(TestCase):
         self.assert_solve(2, 1, 2, 2)
 
     def test_solve_three_a(self):
-        self.assert_solve(3, 2, 2, 3)
+        self.assert_solve(3, 1, 2, 3)
 
     def assert_solve(self, n:int, p:int, k:int, expected_days: int):
         days = Case(n, p, k).solve()

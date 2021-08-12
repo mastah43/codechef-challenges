@@ -10,7 +10,13 @@ class Case:
         return
 
     def solve(self):
-        return self.n # TODO impl
+        n_k_remainder = self.n % self.k
+        n_k_div = self.n // self.k
+        full_iterations = self.p % self.k
+        days_full_iterations = full_iterations * n_k_div + min(n_k_remainder, full_iterations)
+        days_after_full_iterations = self.p // self.k + 1
+        days = days_full_iterations + days_after_full_iterations
+        return days
 
 
 def print_err(*args, **kwargs):
@@ -27,10 +33,10 @@ def read_input() -> List[Case]:
 
 def read_input_test_case() -> Case:
     n, p, k = [int(a) for a in sys.stdin.readline().split()]
-    assert(len(n) > 1)
-    assert(len(p) > 0)
-    assert(len(p) <= n)
-    assert(len(k) > 1)
+    assert(n > 1)
+    assert(p > 0)
+    assert(p <= n)
+    assert(k > 1)
     return Case(n, p, k)
 
 
