@@ -33,10 +33,10 @@ def read_input() -> List[Case]:
 
 def read_input_test_case() -> Case:
     n, p, k = [int(a) for a in sys.stdin.readline().split()]
-    assert(n > 1)
-    assert(p > 0)
+    assert(n >= 1)
+    assert(p >= 0)
     assert(p <= n)
-    assert(k > 1)
+    assert(k >= 1)
     return Case(n, p, k)
 
 
