@@ -1,5 +1,6 @@
 import sys
 from typing import List
+from itertools import permutations
 
 class Move:
     def __init__(self, x: int, y: int):
@@ -14,8 +15,32 @@ class Case:
         return
 
     def solve(self):
-        from itertools import permutations
-        return 0
+        max_array_sum = -1
+        best_moves = list()
+        for moves in permutations(self.moves):
+            self._reset_array()
+            self._apply_moves(moves)
+            array_sum = self._array_sum()
+            if array_sum > max_array_sum:
+                max_array_sum = array_sum
+                best_moves = moves
+        return max_array_sum
+
+    def _reset_array(self):
+        self.a = [0 for i in range(len(self.a))]
+
+    def _apply_moves(self, moves):
+        for move in moves:
+            self._apply_move(move)
+
+    def _apply_move(self, move):
+        for i, aj in enumerate(self.a):
+            j = i + 1
+            if aj == 0 and j % move.y != 0:
+                self.a[i] = move.x
+
+    def _array_sum(self):
+        return sum(self.a)
 
 
 def print_err(*args, **kwargs):
