@@ -3,10 +3,14 @@ from typing import List
 from itertools import permutations
 
 class Move:
+    def __repr__(self) -> str:
+        return f"[{self.x},{self.y}]"
+
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
         return
+
 
 class Case:
     def __init__(self, n: int, moves: List[Move]):
@@ -15,16 +19,32 @@ class Case:
         return
 
     def solve(self):
-        max_array_sum = -1
+        self._reset_array()
         best_moves = list()
-        for moves in permutations(self.moves):
-            self._reset_array()
-            self._apply_moves(moves)
-            array_sum = self._array_sum()
-            if array_sum > max_array_sum:
-                max_array_sum = array_sum
-                best_moves = moves
-        return max_array_sum
+        moves_ordered = self._sorted_moves_by_value()
+        print_err("moves ordered: " + str(moves_ordered))
+        while len(moves_ordered) > 0:
+            move_chosen_i = -1
+            sum_inc_max = -1
+            for i, move in enumerate(moves_ordered):
+                sum_inc = self._get_sum_increment_by_move(move)
+                if sum_inc > sum_inc_max:
+                    sum_inc_max = sum_inc
+                    move_chosen_i = i
+
+            move_chosen = moves_ordered.pop(move_chosen_i)
+            print_err("move chosen: " + str(move_chosen))
+            best_moves.append(move_chosen)
+            self._apply_move(move_chosen)
+
+        print_err("best moves: " + str(best_moves))
+
+        return self._array_sum()
+
+    def _sorted_moves_by_value(self):
+        return sorted(self.moves,
+                      key=lambda move: move.x,
+                      reverse=True)
 
     def _reset_array(self):
         self.a = [0 for i in range(len(self.a))]
@@ -34,13 +54,22 @@ class Case:
             self._apply_move(move)
 
     def _apply_move(self, move):
-        for i, aj in enumerate(self.a):
-            j = i + 1
-            if aj == 0 and j % move.y != 0:
+        for i, ai in enumerate(self.a):
+            if self._is_move_applicable_to_index(ai, i, move):
                 self.a[i] = move.x
+
+    def _is_move_applicable_to_index(self, ai, i, move):
+        return ai == 0 and (i + 1) % move.y != 0
 
     def _array_sum(self):
         return sum(self.a)
+
+    def _get_sum_increment_by_move(self, move):
+        sum_inc = 0
+        for i, ai in enumerate(self.a):
+            if self._is_move_applicable_to_index(ai, i, move):
+                sum_inc += move.y
+        return sum_inc
 
 
 def print_err(*args, **kwargs):
