@@ -1,6 +1,6 @@
 import sys
 from typing import List
-from itertools import permutations
+import math
 
 class Move:
     def __repr__(self) -> str:
@@ -14,62 +14,58 @@ class Move:
 
 class Case:
     def __init__(self, n: int, moves: List[Move]):
-        self.a = [0 for i in range(n)]
+        self.n = n
         self.moves = moves
         return
 
     def solve(self):
-        self._reset_array()
         best_moves = list()
         moves_ordered = self._sorted_moves_by_value()
         print_err("moves ordered: " + str(moves_ordered))
         while len(moves_ordered) > 0:
-            move_chosen_i = -1
-            sum_inc_max = -1
+            #move_chosen_i = -1
+            #sum_inc_max = -1
             for i, move in enumerate(moves_ordered):
-                sum_inc = self._get_sum_increment_by_move(move)
-                if sum_inc > sum_inc_max:
-                    sum_inc_max = sum_inc
-                    move_chosen_i = i
+                #sum_inc = self._get_sum_increment_by_move(best_moves, move)
+                #if sum_inc > sum_inc_max:
+                #    sum_inc_max = sum_inc
+                #    move_chosen_i = i
 
-            move_chosen = moves_ordered.pop(move_chosen_i)
-            print_err("move chosen: " + str(move_chosen))
-            best_moves.append(move_chosen)
-            self._apply_move(move_chosen)
+                move_chosen_i = i
+                move_chosen = moves_ordered.pop(move_chosen_i)
+                print_err("move chosen: " + str(move_chosen))
+                best_moves.append(move_chosen)
 
         print_err("best moves: " + str(best_moves))
-
-        return self._array_sum()
+        return self._array_sum(best_moves)
 
     def _sorted_moves_by_value(self):
         return sorted(self.moves,
                       key=lambda move: move.x,
                       reverse=True)
 
-    def _reset_array(self):
-        self.a = [0 for i in range(len(self.a))]
-
-    def _apply_moves(self, moves):
+    def _array_sum(self, moves: List[Move]):
+        arr_sum = 0
+        moves_before = List[Move]()
         for move in moves:
-            self._apply_move(move)
+            arr_sum += self._get_sum_increment_by_move(moves_before, move)
+        return arr_sum
 
-    def _apply_move(self, move):
-        for i, ai in enumerate(self.a):
-            if self._is_move_applicable_to_index(ai, i, move):
-                self.a[i] = move.x
+    def _get_sum_increment_by_move(self, moves_before, move):
+        indices_taken_before = 0
+        for move_before in moves_before:
+            indices_taken_cur = self.n // move_before.y
+            lcm = Case._lcm(move.x, moves_before.x)
+            indices_taken_by_move_before = self.n // lcm
+            # TODO how to determine overlap with e.g. move before 1 and move before 2 but not counting the overlap between move before 1 & 2
+            indices_taken_before += indices_taken_cur
 
-    def _is_move_applicable_to_index(self, ai, i, move):
-        return ai == 0 and (i + 1) % move.y != 0
+        indices_new_move = max(0, self.n // move.y - indices_taken_before)
+        return indices_new_move * move.y
 
-    def _array_sum(self):
-        return sum(self.a)
-
-    def _get_sum_increment_by_move(self, move):
-        sum_inc = 0
-        for i, ai in enumerate(self.a):
-            if self._is_move_applicable_to_index(ai, i, move):
-                sum_inc += move.y
-        return sum_inc
+    @staticmethod
+    def _lcm(a, b):
+        return abs(a * b) // math.gcd(a, b)
 
 
 def print_err(*args, **kwargs):

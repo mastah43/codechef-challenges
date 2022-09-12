@@ -31,14 +31,33 @@ class Test(TestCase):
 
     def test_solve_small_array_max_moves(self):
         arr_len = 10
+        move_count = pow(10, 5)
+        self._assert_solve_array_with_single_significant_move(arr_len, move_count)
+
+    def test_solve_max_array_small_moves(self):
+        arr_len = pow(10, 9)
+        move_count = 5
+        self._assert_solve_array_with_single_significant_move(arr_len, move_count)
+
+    def test_solve_max_array_max_moves(self):
+        arr_len = pow(10, 9)
+        move_count = pow(10, 5)
+        self._assert_solve_array_with_single_significant_move(arr_len, move_count)
+
+    def test_lcm(self):
+        self.assertEqual(6, Case._lcm(2, 3))
+        self.assertEqual(4, Case._lcm(2, 4))
+        self.assertEqual(1, Case._lcm(1, 1))
+        self.assertEqual(pow(10, 9), Case._lcm(2, pow(10, 9)))
+
+    def _assert_solve_array_with_single_significant_move(self, arr_len, move_count):
         low_value = 1
         high_value = 2
-        move_count = pow(10, 5)
         moves = list[Move]()
         for i in range(move_count):
             moves.append(Move(low_value, 3))
-        moves.append(Move(high_value, arr_len+1))
-        self.assert_solve(Case(arr_len, moves), high_value*arr_len)
+        moves.append(Move(high_value, arr_len + 1))
+        self.assert_solve(Case(arr_len, moves), high_value * arr_len)
 
     def assert_solve(self, case: Case, max_sum_expected: int):
         max_sum = case.solve()
